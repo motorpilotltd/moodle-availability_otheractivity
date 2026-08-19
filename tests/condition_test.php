@@ -204,6 +204,9 @@ final class condition_test extends \advanced_testcase {
             'course' => $offcourse->id,
             'completion' => COMPLETION_TRACKING_MANUAL,
         ]);
+        // The generator warns about tracking in a completion-disabled course;
+        // that mismatch is exactly the situation under test.
+        $this->assertDebuggingCalled();
         $condition = new condition(condition::get_json($offtarget->cmid, COMPLETION_COMPLETE));
         $this->assertFalse($condition->is_available(false, $info, false, $user->id));
     }

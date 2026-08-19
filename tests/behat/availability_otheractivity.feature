@@ -47,7 +47,7 @@ Feature: Restrict access by completion of an activity in another course
     And I press "Add restriction..."
     And I click on "Other activity" "button" in the "Add restriction..." "dialogue"
     And I set the field "Search activities" to "Prereq"
-    And I wait until the page contains "Prereq page [Course 1]"
+    And I wait until "//select[@name='cm']/option[contains(., 'Prereq page [Course 1]')]" "xpath_element" exists
     And I select the first search result in the other activity restriction
     And I press "Save and return to course"
     When I am on the "C2" "Course" page logged in as "student1"

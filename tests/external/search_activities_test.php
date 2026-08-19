@@ -135,6 +135,9 @@ final class search_activities_test extends \externallib_advanced_testcase {
             'name' => 'Untrackable page',
             'completion' => COMPLETION_TRACKING_MANUAL,
         ]);
+        // The generator warns about tracking in a completion-disabled course;
+        // that mismatch is exactly the situation under test.
+        $this->assertDebuggingCalled();
 
         $result = $this->search('Untrack');
         $this->assertSame([], $result['activities']);
