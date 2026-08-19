@@ -1,0 +1,12 @@
+{
+    "moodle-availability_otheractivity-form": {
+        "requires": [
+            "base",
+            "node",
+            "event",
+            "event-valuechange",
+            "escape",
+            "moodle-core_availability-form"
+        ]
+    }
+}
