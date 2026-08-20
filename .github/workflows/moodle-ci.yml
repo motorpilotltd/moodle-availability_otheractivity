@@ -1,6 +1,10 @@
 name: Moodle Plugin CI
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -64,7 +68,7 @@ jobs:
 
     steps:
       - name: Check out repository code
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
         with:
           path: plugin
 
