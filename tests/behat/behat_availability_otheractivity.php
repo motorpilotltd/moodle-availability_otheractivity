@@ -16,7 +16,30 @@
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+// Symlink-safe resolution: __DIR__ is the realpath, so in a symlinked
+// working copy the relative hop lands outside the Moodle checkout. Every
+// process that loads this file has a CWD somewhere inside the checkout
+// (behat init chdir()s to admin/tool/behat/cli), so walk upwards from the
+// CWD until lib/behat/behat_base.php appears — covering both the classic
+// and the Moodle 5.1+ public/ layouts.
+if (!class_exists('behat_base', false)) {
+    $otheractivitybehatbase = __DIR__ . '/../../../../../lib/behat/behat_base.php';
+    if (!file_exists($otheractivitybehatbase)) {
+        $otheractivitydir = getcwd();
+        while ($otheractivitydir && $otheractivitydir !== dirname($otheractivitydir)) {
+            foreach (['/lib/behat/behat_base.php', '/public/lib/behat/behat_base.php'] as $otheractivitytail) {
+                if (file_exists($otheractivitydir . $otheractivitytail)) {
+                    $otheractivitybehatbase = $otheractivitydir . $otheractivitytail;
+                    break 2;
+                }
+            }
+            $otheractivitydir = dirname($otheractivitydir);
+        }
+        unset($otheractivitydir, $otheractivitytail);
+    }
+    require_once($otheractivitybehatbase);
+    unset($otheractivitybehatbase);
+}
 
 /**
  * Behat steps for availability_otheractivity.
